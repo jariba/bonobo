@@ -1,0 +1,82 @@
+// $ANTLR 2.7.2: "JCLGrammar.g" -> "JCLParser.java"$
+
+package org.djmj.cp.jcl;
+
+import java.io.*;
+import java.util.*;
+
+
+public interface JCLParserTokenTypes {
+	int EOF = 1;
+	int NULL_TREE_LOOKAHEAD = 3;
+	int INCLUDE = 4;
+	int STRING_LITERAL = 5;
+	int CLASS = 6;
+	int IDENTIFIER = 7;
+	int EXTENDS = 8;
+	int LCURLY = 9;
+	int RCURLY = 10;
+	int CONSTRAINED = 11;
+	int LPAREN = 12;
+	int RPAREN = 13;
+	int COMMA = 14;
+	int ASSIGN = 15;
+	int LITERAL_if = 16;
+	int LITERAL_else = 17;
+	int LITERAL_while = 18;
+	int LOR = 19;
+	int LAND = 20;
+	int NOT_EQUAL = 21;
+	int EQUAL = 22;
+	int LT = 23;
+	int GT = 24;
+	int LE = 25;
+	int GE = 26;
+	int PLUS = 27;
+	int MINUS = 28;
+	int STAR = 29;
+	int DIV = 30;
+	int MOD = 31;
+	int NEW = 32;
+	int DOT = 33;
+	int NUM_INT = 34;
+	int NUM_FLOAT = 35;
+	int NUM_LONG = 36;
+	int NUM_DOUBLE = 37;
+	int QUESTION = 38;
+	int CONSTRAIN = 39;
+	int COLON = 40;
+	int ENFORCE_IF = 41;
+	int ENFORCE = 42;
+	int WS = 43;
+	int LBRACK = 44;
+	int RBRACK = 45;
+	int LNOT = 46;
+	int BNOT = 47;
+	int DIV_ASSIGN = 48;
+	int PLUS_ASSIGN = 49;
+	int INC = 50;
+	int MINUS_ASSIGN = 51;
+	int DEC = 52;
+	int STAR_ASSIGN = 53;
+	int MOD_ASSIGN = 54;
+	int SR = 55;
+	int SR_ASSIGN = 56;
+	int BSR = 57;
+	int BSR_ASSIGN = 58;
+	int SL = 59;
+	int SL_ASSIGN = 60;
+	int BXOR = 61;
+	int BXOR_ASSIGN = 62;
+	int BOR = 63;
+	int BOR_ASSIGN = 64;
+	int BAND = 65;
+	int BAND_ASSIGN = 66;
+	int SEMI = 67;
+	int EXPONENT = 68;
+	int FLOAT_SUFFIX = 69;
+	int HEX_DIGIT = 70;
+	int ESC = 71;
+	int SL_COMMENT = 72;
+	int ML_COMMENT = 73;
+}

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="optikit" default="run_jcl_test">
+
+	<!-- 
+    Read parameters from environment to adapt to each developer's setup.
+    You MUST set these environment variables. See env.sh in this directory
+    for an example of the values the variables should take
+  -->
+  <property environment="env"/>
+  <property name="javac.debug" value="${env.javac.debug}"/>
+  <!-- end parameters -->
+
+  <property name="javac.debuglevel" value="source,lines,vars"/>
+  <property name="src.dir" value="src"/>
+  <property name="build.dir" value="build"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="conf.dir" value="conf"/>
+  <property name="dist.dir" value="dist"/>
+  <property name="install.dir" value="bin/install"/>
+  <property name="db.dir" value="bin/db"/>
+  <property name="log4j.jar" value="log4j-1.2.11.jar"/>
+	
+<path id="project.classpath">
+  <pathelement location="${lib.dir}/log4j/${log4j.jar}"/>
+  <pathelement location="${lib.dir}/antlr/antlr.jar"/>
+  <pathelement location="${build.dir}/classes"/>
+</path>
+
+<target name="help">
+<echo>
+The OptiKit Apps Build
+================================
+Ant 1.5 is used, from www.apache.org, jakarta project.
+
+The targets are:-
+init          - creates the directories 
+cleanall      - deletes all class files and products of the build system.
+all           - creates the ear file and deploys it
+</echo>
+</target>
+
+
+<!--  ******************** INIT ************************************************************** -->
+<target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build.dir}/classes"/>
+    <mkdir dir="${dist.dir}"/>
+</target>
+
+
+<!--  ******************************* CLEANCOMMON ************************************************************** -->
+<target name="cleanparser">
+    <delete>
+        <fileset dir="${src.dir}/org/djmj/cp/jcl">
+	      <include name="JCLLexer.java"/>
+	      <include name="JCLParser.java"/>
+	      <include name="JCLParserTokenTypes.java"/>
+	      <include name="JCLParserTokenTypes.txt"/>
+        </fileset>
+    </delete>
+</target>
+
+
+<!--  ********************* CLEANSRC ************************************************************** -->
+<target name="cleansrc" 
+	description="delete all .class files from the src area">
+    <!-- Delete the class files in the jakarta web apps area -->
+    <delete>
+      <fileset casesensitive="no" defaultexcludes="no" dir="src">
+		<include name="**/*.class"/>
+		<include name="**/*~"/>
+		<include name="**/*.~*"/>
+		<include name="**/*.bak"/>
+		<include name="**/*.NBATTRS"/>
+      </fileset>
+      <fileset casesensitive="no" defaultexcludes="no" dir=".">
+		<include name="**/*~"/>
+		<include name="**/*.~*"/>
+		<include name="**/*.NBATTRS"/>
+      </fileset>
+    </delete>
+</target>
+
+<target name="clean" depends="cleansrc,cleanparser">
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist.dir}"/>
+</target>
+	
+<target name="jclparser">
+    <java classname="antlr.Tool"
+          dir="${src.dir}/org/djmj/cp/jcl"
+          fork="true">
+      <arg value="JCLGrammar.g" />
+      <classpath refid="project.classpath"/>
+    </java>
+</target>
+
+<target name="build" depends="init,jclparser">
+    <javac debug="${javac.debug}" 
+    	   debuglevel="${javac.debuglevel}" 
+    	   destdir="${build.dir}/classes" 
+    	   srcdir="${src.dir}">
+      <classpath refid="project.classpath"/>
+    </javac>
+</target>
+
+<target name="dist">
+    <jar basedir="${build.dir}/classes" 
+    	jarfile="optikit.jar"/>
+</target>
+
+<target name="run_ce_test" 
+	    depends="init,build">
+    <java classname="org.djmj.cp.ce.Test" fork="true">    
+      <classpath refid="project.classpath"/>
+      <jvmarg value="-Xdebug"/>
+      <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"/>
+    </java>
+</target>
+
+<target name="run_jcl_test" 
+	    depends="init,build">
+    <java classname="org.djmj.cp.jcl.Test" fork="true">
+      <classpath refid="project.classpath"/>
+      <jvmarg value="-Xdebug"/>
+      <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"/>
+    </java>
+</target>
+
+</project>
