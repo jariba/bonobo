@@ -1,0 +1,1 @@
+Toolkit for solving Constraint Programming, Scheduling, AI Planning and combinatorial optimization problems.
